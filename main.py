@@ -1,12 +1,12 @@
-import board as b
-import screen
+import classes.Game as Game
 
-
-##
-# The main method. Handles startup and board rendering
-##
 def main():
-	board = b.Board(80,23);
-	screen.render(board);
+	""" 
+	The main method. Handles initial startup arguments and sets up the game 
+	object
 
+	"""
+	# TODO - configuration file loading
+	game = Game.Game()
+	game.startGame()
 main() 
