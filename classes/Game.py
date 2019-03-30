@@ -3,6 +3,7 @@ import pygame
 
 # Project Packages
 import classes.constant as constant
+import classes.enums as enum
 import classes.IEntity as IEntity
 import classes.Player as Player
 
@@ -49,6 +50,10 @@ class Game:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				exit() # TODO - find system-specific exits
+
+			if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+				self.player.inputControl(event)
+
 
 		self.player.update()
 

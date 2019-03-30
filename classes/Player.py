@@ -15,29 +15,57 @@ class Player(ICharacter.ICharacter):
 		self._setSpriteSheet()
 		self._setRect()
 
-		self.spriteSheetMap = {
-			"direction":{
-				enum.Direction.UP:3,
-				enum.Direction.LEFT:1,
-				enum.Direction.RIGHT:2,
-				enum.Direction.DOWN:0
-			},
-			"walk":{
-				0:1,
-				1:0,
-				2:1,
-				3:2
-			}
-		}
-		self.animationState = {
-			"direction":enum.Direction.DOWN,
-			"walk":0
-		}
-
 		return
 
+	def setDirection(self, direction):
+		# TODO - check if the direction is in the enum
+		self.state["update"] = True
+		self.state["direction"] = direction
+
+	def setWalking(self, isWalking):
+		# TODO - check if the direction is in the enum
+		self.state["update"] = True
+		self.state["walking"] = isWalking
+
+	def inputControl(self, event):
+		"""
+		Handles key input to handle player control
+		"""
+		# Start moving
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_LEFT:
+				self.setMoving("x", -1)
+
+			if event.key == pygame.K_DOWN:
+				self.setMoving("y", 1)
+
+			if event.key == pygame.K_RIGHT:
+				self.setMoving("x", 1)
+
+			if event.key == pygame.K_UP:
+				self.setMoving("y", -1)
+
+		# End moving
+		if event.type == pygame.KEYUP:
+			if event.key == pygame.K_LEFT:
+				self.setMoving("x", 1)
+
+			if event.key == pygame.K_DOWN:
+				self.setMoving("y", -1)
+
+			if event.key == pygame.K_RIGHT:
+				self.setMoving("x", -1)
+
+			if event.key == pygame.K_UP:
+				self.setMoving("y", 1)
+	
+	def setMoving(self, direction, speed):
+		self.moving[direction] += speed
+
 	def update(self):
-		self.updateImage()		
+		self.move()
+
+		self.updateImage() # Update Animation		
 
 
 	def updateImage(self):
@@ -45,8 +73,25 @@ class Player(ICharacter.ICharacter):
 		Sets the individual image to load
 		"""
 		# TODO - base state of of delta time (time between frames) to prevent slowdown from FPS dropping
-		self.animationState["walk"] = (self.animationState["walk"] + 0.2) % 4
+		if self.moving["x"] != 0 or self.moving["y"] != 0:
+			self.animationState["walk"] = (self.animationState["walk"] + 0.2) % 4
+
+			# Determine which way we're moving
+			if self.moving["x"] > 0:
+				self.animationState["direction"] = enum.Direction.RIGHT
+
+			elif self.moving["x"] < 0:
+				self.animationState["direction"] = enum.Direction.LEFT
+
+			elif self.moving["y"] > 0:
+				self.animationState["direction"] = enum.Direction.DOWN
+
+			elif self.moving["y"] < 0:
+				self.animationState["direction"] = enum.Direction.UP
 		
+		else:
+			self.animationState["walk"] = 0
+
 		# TODO - reuse the same Rect, just move it around 
 		self.image = self.spriteSheet.subsurface(
 			self.spriteSheetMap['walk'][math.floor(self.animationState["walk"])] * constant.tileSize, 

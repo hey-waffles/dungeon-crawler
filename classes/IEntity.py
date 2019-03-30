@@ -32,7 +32,11 @@ class IEntity(pygame.sprite.Sprite):
 
 		self.currentVelocity = [0, 0] # The current velocity of an entity
 		self.targetVelocity = [0, 0] # The target velocity of an entity (we acclerate to)
-
+		self.moving = {
+			"x":0,
+			"y":0
+		}
+		self.moveSpeed = 0
 		self.maxAcceleration = 1	# The change in velocity that can be done in a single frame
 
 		self.tileSize = (1,1) # Size in tiles
@@ -45,7 +49,10 @@ class IEntity(pygame.sprite.Sprite):
 		""" 
 		Overloads the Sprite's move method to handle movement on its own
 		"""
-		self.rect = self.rect.move(self.currentVelocity)
+
+		# Ensure final move speed is at most moveSpeed
+		
+		self.rect = self.rect.move([self.moving["x"] * self.moveSpeed, self.moving["y"] * self.moveSpeed])
 
 	def update(self):
 		"""

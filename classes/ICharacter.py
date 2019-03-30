@@ -1,4 +1,7 @@
 import classes.IEntity as IEntity
+import classes.enums as enum
+
+
 class ICharacter(IEntity.IEntity):
 	def __init__(self):
 		IEntity.IEntity.__init__(self)
@@ -15,12 +18,32 @@ class ICharacter(IEntity.IEntity):
 
 		self.interactText = "Some strange being. You can't seem to tell what it is."
 
-		self.moveSpeed = 5
+		self.moveSpeed = 3
 
-	def act():
+		self.spriteSheetMap = {
+			"direction":{
+				enum.Direction.UP:3,
+				enum.Direction.LEFT:1,
+				enum.Direction.RIGHT:2,
+				enum.Direction.DOWN:0
+			},
+			"walk":{
+				0:1,
+				1:0,
+				2:1,
+				3:2
+			}
+		}
+		self.animationState = {
+			"direction":enum.Direction.DOWN,
+			"walk":0
+		}
+
+	
+
+	def act(self):
 		"""
 		Instructs the Character to act in some way. Move to NPCs?
 		"""
 		return
 
-	
