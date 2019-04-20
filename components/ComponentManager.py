@@ -8,6 +8,7 @@ class ComponentManager():
 		self.loadedComponents = {
 			"Debug":Components.Debug,
 			"Position":Components.Position,
+			"Sprite":Components.Sprite,
 		}
 
 		# A struct to contain all entity keys and what components they have
@@ -52,14 +53,20 @@ class ComponentManager():
 		for component in entity['components']:
 			self.components[component].pop(entityID)
 
-	def get(self, entityID, component, field=None):
+	def get(self, component, entityID=None, field=None):
 		"""
 		Returns either the full value of the component for a given entity, 
 		or a specific field's value
 		"""
 
 		# Base case. Exit if the entity doesn't exist or component isn't used
-		if component not in self.components or entityID not in self.components[component]:
+		if component not in self.components:
+			return {}
+
+		elif entityID == None:
+			return self.components[component]
+
+		elif entityID not in self.components[component]:
 			return None
 
 		# Field isn't set, so return all component fields
