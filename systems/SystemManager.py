@@ -1,3 +1,5 @@
+import pygame 
+
 import systems.Movement as Movement
 import systems.Render as Render
 
@@ -70,6 +72,9 @@ class SystemManager():
 		"""
 		The update action to be run once per tick
 		"""
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				exit()
 		
 		for system in self.systemOrder:
 			self.systems[system].update(self.componentManager, self.systemEntities[system])

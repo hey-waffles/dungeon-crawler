@@ -22,6 +22,7 @@ def main():
 	createPlayer(entityManager, componentManager, systemManager)
 
 	while(True):
+		
 		systemManager.update()
 		clock.tick(30)
 

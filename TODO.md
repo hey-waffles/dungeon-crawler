@@ -1,9 +1,9 @@
 # TODO
 * ~~*ECS (Entity-Component-System) Conversion*~~
 * ~~*Game Loop*~~
-* Fix 'Not Responding' issue
-* Animations
+* ~~*Fix 'Not Responding' issue*~~
 * Movement
+* Animations
 * JSON Data loading
 * Player control
 * Maps
